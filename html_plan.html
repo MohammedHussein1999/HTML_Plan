@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خطة تعلم HTML - 16 حصة</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#10B981',
+                        accent: '#F59E0B',
+                        dark: {
+                            100: '#1E293B',
+                            200: '#334155',
+                            300: '#475569',
+                            400: '#64748B',
+                            500: '#94A3B8',
+                        }
+                    },
+                    fontFamily: {
+                        'tajawal': ['Tajawal', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap');
+        
+        body {
+            font-family: 'Tajawal', sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .session-card {
+            transition: all 0.3s ease;
+        }
+        
+        .session-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background-color: #e2e8f0;
+        }
+        
+        .dark .progress-bar {
+            background-color: #2d3748;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            background-color: #4299e1;
+            transition: width 0.5s ease;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        
+        .dark ::-webkit-scrollbar-track {
+            background: #2d3748;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e0;
+            border-radius: 4px;
+        }
+        
+        .dark ::-webkit-scrollbar-thumb {
+            background: #4a5568;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a0aec0;
+        }
+        
+        /* Dark mode toggle animation */
+        .dark-mode-toggle {
+            transition: all 0.3s ease;
+        }
+        
+        .dark-mode-toggle:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Animation classes */
+        .animate-fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .animate-fade-out {
+            animation: fadeOut 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; transform: translateY(0); }
+            to { opacity: 0; transform: translateY(10px); }
+        }
+        
+        /* Type colors */
+        .type-theory {
+            background-color: #DBEAFE;
+            color: #1D4ED8;
+        }
+        .dark .type-theory {
+            background-color: #1E3A8A;
+            color: #93C5FD;
+        }
+        
+        .type-practice {
+            background-color: #D1FAE5;
+            color: #047857;
+        }
+        .dark .type-practice {
+            background-color: #064E3B;
+            color: #6EE7B7;
+        }
+        
+        .type-project {
+            background-color: #EDE9FE;
+            color: #5B21B6;
+        }
+        .dark .type-project {
+            background-color: #5B21B6;
+            color: #C4B5FD;
+        }
+        
+        .type-review {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+        .dark .type-review {
+            background-color: #78350F;
+            color: #FCD34D;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-100 dark:text-gray-200">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="mb-8 text-center relative">
+            <div class="absolute left-0 top-0">
+                <button id="dark-mode-toggle" class="dark-mode-toggle p-2 rounded-full bg-gray-200 dark:bg-dark-200 text-gray-700 dark:text-gray-300">
+                    <i id="dark-mode-icon" class="fas fa-moon"></i>
+                </button>
+            </div>
+            
+            <h1 class="text-3xl font-bold text-primary mb-2">خطة تعلم HTML</h1>
+            <p class="text-gray-600 dark:text-gray-400">16 حصة من المبتدئ إلى المتوسط</p>
+            
+            <!-- Progress bar -->
+            <div class="mt-6 max-w-2xl mx-auto">
+                <div class="flex justify-between mb-2">
+                    <span class="text-sm font-medium">إجمالي الحصص</span>
+                    <span class="text-sm font-medium"><span id="completed-count">0</span>/16 مكتملة</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Filter and search -->
+        <div class="mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="relative w-full md:w-64">
+                <input type="text" id="search-input" placeholder="ابحث عن حصة..." class="w-full pr-10 pl-4 py-2 border border-gray-300 dark:border-dark-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition bg-white dark:bg-dark-200 dark:text-gray-200">
+                <i class="fas fa-search absolute right-3 top-3 text-gray-400 dark:text-gray-500"></i>
+            </div>
+            
+            <div class="flex gap-2 w-full md:w-auto">
+                <select id="type-filter" class="px-4 py-2 border border-gray-300 dark:border-dark-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition bg-white dark:bg-dark-200 dark:text-gray-200">
+                    <option value="all">جميع الأنواع</option>
+                    <option value="theory">نظري</option>
+                    <option value="practice">تطبيق</option>
+                    <option value="project">مشروع</option>
+                    <option value="review">مراجعة</option>
+                </select>
+                
+                <select id="week-filter" class="px-4 py-2 border border-gray-300 dark:border-dark-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition bg-white dark:bg-dark-200 dark:text-gray-200">
+                    <option disabled selected value="all">جميع الأسابيع</option>
+                    <option value="1">الأسبوع 1</option>
+                    <option value="2">الأسبوع 2</option>
+                    <option value="3">الأسبوع 3</option>
+                    <option value="4">الأسبوع 4</option>
+                </select>
+                
+                <select id="status-filter" class="px-4 py-2 border border-gray-300 dark:border-dark-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary outline-none transition bg-white dark:bg-dark-200 dark:text-gray-200">
+                    <option value="all">جميع الحالات</option>
+                    <option value="completed">مكتملة</option>
+                    <option value="incomplete">غير مكتملة</option>
+                </select>
+            </div>
+        </div>
+        
+        <!-- Sessions grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="sessions-container">
+            <!-- Sessions will be added here by JavaScript -->
+        </div>
+        
+        <!-- Stats footer -->
+        <footer class="mt-12 bg-white dark:bg-dark-200 rounded-xl shadow-sm dark:shadow-none p-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <div class="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-lg border border-blue-100 dark:border-blue-900/50">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-blue-100 dark:bg-blue-800 p-3 rounded-full">
+                            <i class="fas fa-book text-blue-600 dark:text-blue-300 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">إجمالي الحصص</p>
+                            <p class="text-2xl font-bold text-blue-600 dark:text-blue-300">16</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-green-50 dark:bg-green-900/30 p-4 rounded-lg border border-green-100 dark:border-green-900/50">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-green-100 dark:bg-green-800 p-3 rounded-full">
+                            <i class="fas fa-check-circle text-green-600 dark:text-green-300 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">الحصص المكتملة</p>
+                            <p class="text-2xl font-bold text-green-600 dark:text-green-300"><span id="stats-completed">0</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-yellow-50 dark:bg-yellow-900/30 p-4 rounded-lg border border-yellow-100 dark:border-yellow-900/50">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-yellow-100 dark:bg-yellow-800 p-3 rounded-full">
+                            <i class="fas fa-clock text-yellow-600 dark:text-yellow-300 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">الحصص المتبقية</p>
+                            <p class="text-2xl font-bold text-yellow-600 dark:text-yellow-300"><span id="stats-remaining">16</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-lg border border-purple-100 dark:border-purple-900/50">
+                    <div class="flex items-center gap-3">
+                        <div class="bg-purple-100 dark:bg-purple-800 p-3 rounded-full">
+                            <i class="fas fa-project-diagram text-purple-600 dark:text-purple-300 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 dark:text-gray-400 text-sm">عدد المشاريع</p>
+                            <p class="text-2xl font-bold text-purple-600 dark:text-purple-300">3</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Dark mode toggle functionality
+            const darkModeToggle = document.getElementById('dark-mode-toggle');
+            const darkModeIcon = document.getElementById('dark-mode-icon');
+            
+            // Check for saved user preference or use system preference
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+            const currentTheme = localStorage.getItem('theme');
+            
+            if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+                document.documentElement.classList.add('dark');
+                darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+            }
+            
+            darkModeToggle.addEventListener('click', function() {
+                const isDark = document.documentElement.classList.toggle('dark');
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                
+                if (isDark) {
+                    darkModeIcon.classList.replace('fa-moon', 'fa-sun');
+                } else {
+                    darkModeIcon.classList.replace('fa-sun', 'fa-moon');
+                }
+            });
+            
+            // Sessions data
+            const sessionsData = [
+                { week: 1, number: 1, title: "مقدمة عن الويب وHTML", type: "theory", desc: "ما هو الإنترنت؟ شرح محررات الأكواد والمتصفحات، ما هي HTML ولماذا نستخدمها، مقارنة بين HTML4 وHTML5، الأدوات المطلوبة", icon: "fa-globe", completed: false },
+                { week: 1, number: 2, title: "الهيكل الأساسي لصفحة HTML", type: "theory", desc: "العناصر الأساسية: html, head, body, title، كتابة أول صفحة HTML يدوياً، شرح أهمية تقسيم الصفحة", icon: "fa-code", completed: false },
+                { week: 1, number: 3, title: "عناوين الصفحات والفقرات", type: "practice", desc: "الوسوم h1 إلى h6، الفقرة p، السطر الجديد br والخط الأفقي hr، التعليقات في HTML", icon: "fa-heading", completed: false },
+                { week: 1, number: 4, title: "تنسيق النصوص", type: "practice", desc: "الوسوم: strong, em, b, i, u, mark, small, del, ins", icon: "fa-font", completed: false },
+                { week: 2, number: 5, title: "الروابط التشعبية", type: "practice", desc: "وسم a واستخدام href, target، روابط داخلية وخارجية، ربط صفحات الموقع ببعضها", icon: "fa-link", completed: false },
+                { week: 2, number: 6, title: "إدراج الصور", type: "practice", desc: "وسم img واستخدام src, alt, width, height", icon: "fa-image", completed: false },
+                { week: 2, number: 7, title: "القوائم المرتبة وغير المرتبة", type: "practice", desc: "الوسوم ul, ol, li، القوائم المتداخلة", icon: "fa-list-ol", completed: false },
+                { week: 2, number: 8, title: "المراجعة الأولى وتطبيق عملي", type: "review", desc: "تطبيق كامل باستخدام ما سبق، مراجعة عامة", icon: "fa-book-open", completed: false },
+                { week: 3, number: 9, title: "الجداول", type: "theory", desc: "وسم table، الصفوف tr، الأعمدة td وth، thead, tbody, tfoot، دمج الأعمدة والصفوف", icon: "fa-table", completed: false },
+                { week: 3, number: 10, title: "خصائص إضافية في الجداول", type: "practice", desc: "تطبيق كامل باستخدام الجداول، مراجعة خاصة بالجداول", icon: "fa-table", completed: false },
+                { week: 3, number: 11, title: "النماذج - الجزء الأول", type: "theory", desc: "وسم form، input بأنواعه: نص، بريد، رقم، كلمة مرور، label, placeholder, required", icon: "fa-window-maximize", completed: false },
+                { week: 3, number: 12, title: "النماذج - الجزء الثاني", type: "practice", desc: "عناصر الإدخال الأخرى: textarea, select, option, button، إرسال البيانات action, method", icon: "fa-window-maximize", completed: false },
+                { week: 4, number: 13, title: "الوسائط المتعددة", type: "practice", desc: "إدراج الصوت audio، إدراج الفيديو video، التحكم في الخصائص (تشغيل تلقائي، تحكم، تكرار)", icon: "fa-photo-film", completed: false },
+                { week: 4, number: 14, title: "عناصر التخطيط في HTML5", type: "theory", desc: "الهيكلة الحديثة: header, nav, main, article, section, aside, footer", icon: "fa-layer-group", completed: false },
+                { week: 4, number: 15, title: "الإطارات والعناصر المضمنة", type: "practice", desc: "وسم iframe (دمج Google Maps أو YouTube)، الفرق بين العناصر block و inline", icon: "fa-window-restore", completed: false },
+                { week: 4, number: 16, title: "مشروع ختامي + مراجعة شاملة", type: "project", desc: "مشروع نهائي: تصميم صفحة شخصية أو موقع تعريفي، مراجعة شاملة لكل ما تم تغطيته", icon: "fa-trophy", completed: false }
+            ];
+            
+            const sessionsContainer = document.getElementById('sessions-container');
+            const progressFill = document.getElementById('progress-fill');
+            const completedCount = document.getElementById('completed-count');
+            const statsCompleted = document.getElementById('stats-completed');
+            const statsRemaining = document.getElementById('stats-remaining');
+            const searchInput = document.getElementById('search-input');
+            const typeFilter = document.getElementById('type-filter');
+            const weekFilter = document.getElementById('week-filter');
+            const statusFilter = document.getElementById('status-filter');
+            
+            let completedSessions = 0;
+            
+            // Load saved completion status from localStorage
+            function loadCompletionStatus() {
+                sessionsData.forEach(session => {
+                    const savedStatus = localStorage.getItem(`session-${session.number}-completed`);
+                    if (savedStatus === 'true') {
+                        session.completed = true;
+                        completedSessions++;
+                    }
+                });
+                updateProgress();
+            }
+            
+            // Render sessions based on filters
+            function renderSessions() {
+                sessionsContainer.innerHTML = '';
+                
+                const searchTerm = searchInput.value.toLowerCase();
+                const typeFilterValue = typeFilter.value;
+                const weekFilterValue = weekFilter.value;
+                const statusFilterValue = statusFilter.value;
+                
+                sessionsData
+                    .filter(session => {
+                        // Apply search filter
+                        if (searchTerm && 
+                            !session.title.toLowerCase().includes(searchTerm) && 
+                            !session.desc.toLowerCase().includes(searchTerm)) {
+                            return false;
+                        }
+                        
+                        // Apply type filter
+                        if (typeFilterValue !== 'all' && session.type !== typeFilterValue) {
+                            return false;
+                        }
+                        
+                        // Apply week filter
+                        if (weekFilterValue !== 'all' && session.week.toString() !== weekFilterValue) {
+                            return false;
+                        }
+                        
+                        // Apply status filter
+                        if (statusFilterValue === 'completed' && !session.completed) {
+                            return false;
+                        }
+                        if (statusFilterValue === 'incomplete' && session.completed) {
+                            return false;
+                        }
+                        
+                        return true;
+                    })
+                    .forEach(session => {
+                        const sessionCard = document.createElement('div');
+                        sessionCard.className = `session-card bg-white dark:bg-dark-200 rounded-xl shadow-sm dark:shadow-none overflow-hidden border border-gray-200 dark:border-dark-300 hover:shadow-md dark:hover:shadow-none ${session.completed ? 'border-green-200 dark:border-green-800' : ''}`;
+                        
+                        // Determine type color class
+                        let typeColorClass = '';
+                        switch(session.type) {
+                            case 'theory': typeColorClass = 'type-theory'; break;
+                            case 'practice': typeColorClass = 'type-practice'; break;
+                            case 'project': typeColorClass = 'type-project'; break;
+                            case 'review': typeColorClass = 'type-review'; break;
+                        }
+                        
+                        sessionCard.innerHTML = `
+                            <div class="p-5">
+                                <div class="flex justify-between items-start mb-3">
+                                    <div>
+                                        <span class="text-xs font-medium px-2 py-1 rounded ${typeColorClass}">
+                                            ${getTypeName(session.type)}
+                                        </span>
+                                    </div>
+                                    <span class="text-xs font-medium text-gray-500 dark:text-gray-400">الأسبوع ${session.week} - الحصة ${session.number}</span>
+                                </div>
+                                
+                                <h3 class="font-bold text-lg mb-2 dark:text-gray-100">${session.title}</h3>
+                                <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">${session.desc}</p>
+                                
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas ${session.icon} text-primary dark:text-primary-300"></i>
+                                        <span class="text-xs text-gray-500 dark:text-gray-400">${session.type === 'project' ? 'مشروع' : 'حصة'} ${session.number}</span>
+                                    </div>
+                                    
+                                    <button onclick="toggleCompletion(this, ${session.number})" class="px-3 py-1 rounded-lg text-sm font-medium ${session.completed ? 'bg-green-100 dark:bg-green-800/30 text-green-800 dark:text-green-300' : 'bg-gray-100 dark:bg-dark-300 text-gray-800 dark:text-gray-300'}">
+                                        ${session.completed ? 'مكتملة <i class="fas fa-check ml-1"></i>' : 'إكمال <i class="fas fa-plus ml-1"></i>'}
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <div class="px-5 py-3 border-t border-gray-100 dark:border-dark-300 bg-gray-50 dark:bg-dark-300 flex items-center justify-between">
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    ${getLevel(session.number)}
+                                </div>
+                                
+                                <div class="text-xs text-gray-500 dark:text-gray-400">
+                                    ${session.completed ? 'تم الإكمال' : 'لم تكتمل بعد'}
+                                </div>
+                            </div>
+                        `;
+                        
+                        sessionsContainer.appendChild(sessionCard);
+                    });
+            }
+            
+            // Helper function to get type name
+            function getTypeName(type) {
+                switch(type) {
+                    case 'theory': return 'حصة نظرية';
+                    case 'practice': return 'حصة تطبيقية';
+                    case 'project': return 'مشروع عملي';
+                    case 'review': return 'مراجعة شاملة';
+                    default: return type;
+                }
+            }
+            
+            // Helper function to get level
+            function getLevel(sessionNumber) {
+                if (sessionNumber < 5) return 'مبتدئ';
+                if (sessionNumber < 12) return 'متوسط';
+                return 'متقدم';
+            }
+            
+            // Update progress
+            function updateProgress() {
+                const percentage = (completedSessions / 16) * 100;
+                progressFill.style.width = `${percentage}%`;
+                completedCount.textContent = completedSessions;
+                statsCompleted.textContent = completedSessions;
+                statsRemaining.textContent = 16 - completedSessions;
+            }
+            
+            // Make function available globally
+            window.toggleCompletion = function(button, sessionNumber) {
+                const session = sessionsData.find(s => s.number === sessionNumber);
+                session.completed = !session.completed;
+                
+                // Save to localStorage
+                localStorage.setItem(`session-${sessionNumber}-completed`, session.completed);
+                
+                if (session.completed) {
+                    completedSessions++;
+                } else {
+                    completedSessions--;
+                }
+                
+                updateProgress();
+                renderSessions();
+                
+                // Show notification
+                const notification = document.createElement('div');
+                notification.className = 'fixed bottom-4 right-4 bg-white dark:bg-dark-200 shadow-lg rounded-lg px-4 py-2 border-l-4 border-green-500 dark:border-green-600 flex items-center gap-2 animate-fade-in';
+                notification.innerHTML = `
+                    <i class="fas ${session.completed ? 'fa-check-circle text-green-500 dark:text-green-400' : 'fa-times-circle text-red-500 dark:text-red-400'}"></i>
+                    <span class="dark:text-gray-200">تم ${session.completed ? 'إكمال' : 'إلغاء إكمال'} الحصة ${sessionNumber}</span>
+                `;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.classList.add('animate-fade-out');
+                    setTimeout(() => notification.remove(), 500);
+                }, 3000);
+            };
+            
+            // Initialize
+            loadCompletionStatus();
+            renderSessions();
+            
+            // Add event listeners for filters
+            searchInput.addEventListener('input', renderSessions);
+            typeFilter.addEventListener('change', renderSessions);
+            weekFilter.addEventListener('change', renderSessions);
+            statusFilter.addEventListener('change', renderSessions);
+        });
+    </script>
+</body>
+</html>
