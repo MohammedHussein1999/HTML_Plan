@@ -119,6 +119,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     case 'review': typeColorClass = 'type-review'; break;
                 }
 
+                const homeworkHtml = session.homework ? `
+                    <div class='mt-3 p-3 rounded-lg bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-700'><span class='block text-xs font-bold text-yellow-700 dark:text-yellow-200 mb-1'>الواجب:</span><span class='block text-sm text-gray-800 dark:text-gray-100'>${session.homework}</span></div>
+                ` : '';
+
                 sessionCard.innerHTML = `
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-3">
@@ -131,18 +135,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         </div>
                         <h3 class="font-bold text-lg mb-2 dark:text-gray-100">${session.title}</h3>
                         <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">${session.desc}</p>
-                        <div class="flex items-center justify-between">
+                        ${homeworkHtml}
+                        <div class="flex items-center justify-between mt-4">
                             <div class="flex items-center gap-2">
                                 <i class="fas ${session.icon} text-primary dark:text-primary-300"></i>
                                 <span class="text-xs text-gray-500 dark:text-gray-400">${session.type === 'project' ? 'مشروع' : 'حصة'} ${session.number}</span>
                             </div>
                             <button onclick="toggleCompletion(this, ${session.number})" class="px-3 py-1 rounded-lg text-sm font-medium ${session.completed ? 'bg-green-100 dark:bg-green-800/30 text-green-800 dark:text-green-300' : 'bg-gray-100 dark:bg-dark-300 text-gray-800 dark:text-gray-300'}">
-                                ${session.completed ? 'مكتملة <i class="fas fa-check ml-1"></i>' : 'إكمال <i class="fas fa-plus ml-1"></i>'}
+                                ${session.completed ? 'مكتملة <i class=\"fas fa-check ml-1\"></i>' : 'إكمال <i class=\"fas fa-plus ml-1\"></i>'}
                             </button>
-                        </div>
-                        <div class="mt-4">
-                            <span class="block text-xs font-bold text-accent">الواجب:</span>
-                            <span class="block text-xs text-gray-700 dark:text-gray-300">${session.homework || 'لا يوجد'}</span>
                         </div>
                     </div>
                     <div class="px-5 py-3 border-t border-gray-100 dark:border-dark-300 bg-gray-50 dark:bg-dark-300 flex items-center justify-between">
