@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
             html.classList('dark').toggle;
             localStorage.setItem('theme', 'light');
             if (darkModeIcon) {
-                darkModeIcon.classList.toggle('fa-sun');
                 darkModeIcon.classList.toggle('fa-moon');
+                darkModeIcon.classList.toggle('fa-sun');
             }
         });
     }
