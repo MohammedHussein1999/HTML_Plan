@@ -7,9 +7,9 @@ body {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-body.dark-mode {
-    background-color: #181a1b;
-    color: #f5f5f5;
+.dark body {
+    background-color: #181a1b !important;
+    color: #f5f5f5 !important;
 }
 
 .header {
@@ -28,7 +28,7 @@ body.dark-mode {
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.07);
 }
-body.dark-mode .tasks-list {
+.dark .tasks-list {
     background: #23272a;
     box-shadow: 0 2px 8px rgba(0,0,0,0.25);
 }
@@ -40,7 +40,7 @@ body.dark-mode .tasks-list {
     padding: 1rem 1.5rem;
     border-bottom: 1px solid #e0e0e0;
 }
-body.dark-mode .task-item {
+.dark .task-item {
     border-bottom: 1px solid #333;
 }
 
@@ -60,7 +60,7 @@ body.dark-mode .task-item {
     cursor: pointer;
     transition: background 0.3s;
 }
-body.dark-mode .toggle-mode {
+.dark .toggle-mode {
     background: #444;
     color: #fff;
 }
@@ -68,6 +68,17 @@ body.dark-mode .toggle-mode {
 /* تحسينات لعناصر الإدخال */
 input, button {
     font-family: inherit;
+}
+input {
+    background: #fff;
+    color: #222;
+    border: 1px solid #ccc;
+    transition: background 0.3s, color 0.3s;
+}
+.dark input {
+    background: #23272a;
+    color: #f5f5f5;
+    border: 1px solid #444;
 }
 
 ::-webkit-scrollbar {
@@ -77,8 +88,54 @@ input, button {
     background: #bbb;
     border-radius: 8px;
 }
-body.dark-mode ::-webkit-scrollbar-thumb {
+.dark ::-webkit-scrollbar-thumb {
     background: #333;
+}
+
+/* تحسينات إضافية لعناصر الصفحة */
+.session-card {
+    background: #fff;
+    color: #222;
+    transition: background 0.3s, color 0.3s;
+}
+.dark .session-card {
+    background: #23272a;
+    color: #f5f5f5;
+}
+
+/* الواجبات */
+.session-card .homework {
+    background: #fffbea;
+    color: #a67c00;
+    border: 1px solid #ffe599;
+}
+.dark .session-card .homework {
+    background: #3a2e00;
+    color: #ffe599;
+    border: 1px solid #a67c00;
+}
+
+/* زر التبديل */
+#dark-mode-toggle {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+    border: 1px solid #eee;
+    background: #f5f5f5;
+    color: #333;
+}
+.dark #dark-mode-toggle {
+    background: #23272a;
+    color: #fff;
+    border: 1px solid #444;
+}
+
+/* تحسين مظهر الإشعارات في الوضع الداكن والفاتح */
+.fixed.bottom-4.right-4 {
+    z-index: 9999;
+}
+.dark .fixed.bottom-4.right-4 {
+    background: #23272a !important;
+    color: #fff !important;
+    border-color: #444 !important;
 }
 
 /* ... باقي CSS من الملف الأصلي ... */

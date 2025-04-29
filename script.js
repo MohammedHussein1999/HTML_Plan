@@ -2,23 +2,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // كود تبديل الوضع الليلي
     const darkModeToggle = document.getElementById('dark-mode-toggle');
     const darkModeIcon = document.getElementById('dark-mode-icon');
-    // فحص تفضيل المستخدم أو تفضيل النظام
-    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+    // تحميل تفضيل المستخدم أو النظام
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const currentTheme = localStorage.getItem('theme');
-    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme.matches)) {
+    if (currentTheme === 'dark' || (!currentTheme && prefersDarkScheme)) {
         document.documentElement.classList.add('dark');
         if (darkModeIcon) darkModeIcon.classList.replace('fa-moon', 'fa-sun');
     }
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', function() {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            const html = document.documentElement;
+            html.classList.toggle('dark');
+            localStorage.setItem('theme', 'light');
             if (darkModeIcon) {
-                if (isDark) {
-                    darkModeIcon.classList.replace('fa-moon', 'fa-sun');
-                } else {
-                    darkModeIcon.classList.replace('fa-sun', 'fa-moon');
-                }
+                darkModeIcon.classList.toggle('fa-sun');
+                darkModeIcon.classList.toggle('fa-moon');
             }
         });
     }
