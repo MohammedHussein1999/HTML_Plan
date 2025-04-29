@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (darkModeToggle) {
         darkModeToggle.addEventListener('click', function() {
             const html = document.documentElement;
-            html.classList.toggle('dark');
+            html.classList('dark').toggle;
             localStorage.setItem('theme', 'light');
             if (darkModeIcon) {
                 darkModeIcon.classList.toggle('fa-sun');
